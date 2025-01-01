@@ -1,0 +1,84 @@
+#Docker Networks
+networks:
+  app-network-pl-sql:
+    driver: bridge
+    name: app-network-pl-sql
+
+services:
+  #PHP Service
+  app-pl-sql:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    image: digitalocean.com/php
+    container_name: app-pl-sql
+    # restart: unless-stopped
+    # tty: true
+    # environment:
+    #   SERVICE_NAME: app
+    #   SERVICE_TAGS: dev
+    # working_dir: /var/www
+    volumes:
+      - ./:/var/www/html
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - app-network-pl-sql
+    depends_on:
+      - db-pl-sql
+        
+  #Nginx Service
+  webserver-pl-sql:
+    image: nginx:alpine
+    container_name: webserver-pl-sql
+    # restart: unless-stopped
+    # tty: true
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www/html
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - app-network-pl-sql
+
+  #MySQL Service
+  db-pl-sql:
+    image: mysql
+    container_name: db-pl-sql
+    # restart: unless-stopped
+    # tty: true
+    ports:
+      - "3306:3306"
+    env_file:
+      - "./.env"
+    environment:
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - SERVICE_TAGS=dev
+      - SERVICE_NAME=${DB_CONNECTION}
+    volumes:
+      - ./docker/dbdata:/var/lib/mysql/
+      # - mysql/my.cnf:/etc/mysql/my.cnf
+    networks:
+      - app-network-pl-sql
+    depends_on:
+      - webserver-pl-sql
+
+  pma-pl-sql:
+    image: phpmyadmin
+    container_name: pma-pl-sql
+    # restart: unless-stopped
+    # tty: true
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=db-pl-sql
+    networks:
+      - app-network-pl-sql
+    depends_on:
+      - db-pl-sql
+
+#Volumes
+volumes:
+  dbdata:
+    driver: local

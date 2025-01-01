@@ -1,0 +1,33 @@
+Задание:
+Сформируйте выборку, в который попадут клиенты, у которых были операции по 
+счетам за прошедший месяц от текущей даты. Выведите клиента и сумму 
+операций за день в разрезе даты
+
+Процедура:
+
+DROP PROCEDURE OperationsLastMonthPivot;
+CREATE DEFINER=`root`@`%` PROCEDURE `OperationsLastMonthPivot`()
+BEGIN
+    SET @sql = NULL;
+    SELECT
+        GROUP_CONCAT(DISTINCT
+                     CONCAT(
+                         'SUM(CASE WHEN r.`OPER_DATE` = ''',
+                         r.`OPER_DATE`,
+                         ''' THEN r.`SUM` ELSE 0 END) AS `',
+                         r.`OPER_DATE`,
+                         '`')
+                    ) INTO @sql
+    FROM
+        `RECORDS` r
+    WHERE
+        r.`OPER_DATE` >= DATE_SUB(NOW(), INTERVAL 1 MONTH);
+    SET @sql = CONCAT('SELECT ', @sql, ' FROM `RECORDS` r;');
+    PREPARE stmt FROM @sql;
+    EXECUTE stmt;
+    DEALLOCATE PREPARE stmt;
+END
+
+Запуск:
+
+CALL OperationsLastMonthPivot()

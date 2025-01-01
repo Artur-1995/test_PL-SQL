@@ -1,0 +1,14 @@
+Задание:
+Сформируйте отчет, который содержит все счета, относящиеся к продуктам типа 
+ДЕПОЗИТ, принадлежащих клиентам, у которых нет открытых продуктов типа КРЕДИТ.
+
+Скрипт:
+
+SELECT a.* FROM `ACCOUNTS` a
+JOIN `PRODUCTS` p ON a.`PRODUCT_REF` = p.`ID`
+JOIN `PRODUCT_TYPES` t ON p.`PRODUCT_TYPE_ID` = t.`ID`
+WHERE t.`NAME` = 'ДЕПОЗИТ' AND 
+a.`CLIENT_REF` NOT IN (SELECT c.`ID` FROM `CLIENTS` c
+JOIN `PRODUCTS` p ON c.`ID` = p.`ClIENT_REF`
+JOIN `PRODUCT_TYPES` t ON p.`PRODUCT_TYPE_ID` = t.`ID`
+WHERE t.`NAME` = 'КРЕДИТ')

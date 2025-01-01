@@ -1,0 +1,556 @@
+Задание:
+Заполните таблицы примерами из приложенного скрипта.
+
+Для решения поставленных задач и проверки скриптов были добавленны
+дополнительные тестовые данны поверх приложенных в скрипте
+
+Скрипт:
+
+insert into TARIFS values ( 1, 'Тариф за выдачу кредита', 10 );
+
+insert into TARIFS values ( 2, 'Тариф за открытие счета', 10 );
+
+insert into TARIFS values ( 3, 'Тариф за обслуживание карты', 10 );
+
+insert into
+    PRODUCT_TYPES
+values (
+        1,
+        'КРЕДИТ',
+        STR_TO_DATE('01.01.2018', '%d.%m.%Y'),
+        null,
+        1
+    );
+
+insert into
+    PRODUCT_TYPES
+values (
+        2,
+        'ДЕПОЗИТ',
+        STR_TO_DATE('01.01.2018', '%d.%m.%Y'),
+        null,
+        2
+    );
+
+insert into
+    PRODUCT_TYPES
+values (
+        3,
+        'КАРТА',
+        STR_TO_DATE('01.01.2018', '%d.%m.%Y'),
+        null,
+        3
+    );
+
+insert into
+    CLIENTS
+values (
+        1,
+        'Сидоров Иван Петрович',
+        'Россия, Московская облать, г. Пушкин',
+        STR_TO_DATE('01.01.2001', '%d.%m.%Y'),
+        'Россия, Московская облать, г. Пушкин, ул. Грибоедова, д. 5',
+        '2222 555555, выдан ОВД г. Пушкин, 10.01.2015'
+    );
+
+insert into
+    CLIENTS
+values (
+        2,
+        'Иванов Петр Сидорович',
+        'Россия, Московская облать, г. Клин',
+        STR_TO_DATE('01.01.2001', '%d.%m.%Y'),
+        'Россия, Московская облать, г. Клин, ул. Мясникова, д. 3',
+        '4444 666666, выдан ОВД г. Клин, 10.01.2015'
+    );
+
+insert into
+    CLIENTS
+values (
+        3,
+        'Петров Сиодр Иванович',
+        'Россия, Московская облать, г. Балашиха',
+        STR_TO_DATE('01.01.2001', '%d.%m.%Y'),
+        'Россия, Московская облать, г. Балашиха, ул. Пушкина, д. 7',
+        '4444 666666, выдан ОВД г. Клин, 10.01.2015'
+    );
+
+insert into
+    CLIENTS
+values (
+        4,
+        'Иванов Иван Иванович',
+        'Россия, Московская облать, г. Балашиха',
+        STR_TO_DATE('01.01.2001', '%d.%m.%Y'),
+        'Россия, Московская облать, г. Балашиха, ул. Пушкина, д. 7',
+        '4444 666666, выдан ОВД г. Клин, 10.01.2015'
+    );
+
+insert into
+    PRODUCTS
+values (
+        1,
+        1,
+        'Кредитный договор с Сидоровым И.П.',
+        1,
+        STR_TO_DATE('01.06.2015', '%d.%m.%Y'),
+        null
+    );
+
+insert into
+    PRODUCTS
+values (
+        4,
+        1,
+        'Кредитный договор с Иванов И.И.',
+        4,
+        STR_TO_DATE('01.06.2015', '%d.%m.%Y'),
+        null
+    );
+
+insert into
+    PRODUCTS
+values (
+        5,
+        2,
+        'Депозитный договор с Иванов И.И.',
+        4,
+        STR_TO_DATE('01.06.2015', '%d.%m.%Y'),
+        null
+    );
+
+insert into
+    PRODUCTS
+values (
+        2,
+        2,
+        'Депозитный договор с Ивановым П.С.',
+        2,
+        STR_TO_DATE('01.08.2017', '%d.%m.%Y'),
+        null
+    );
+
+insert into
+    PRODUCTS
+values (
+        3,
+        3,
+        'Карточный договор с Петровым С.И.',
+        3,
+        STR_TO_DATE('01.08.2017', '%d.%m.%Y'),
+        null
+    );
+
+insert into
+    ACCOUNTS
+values (
+        1,
+        'Кредитный счет для Сидоровым И.П.',
+        -2000,
+        1,
+        STR_TO_DATE('01.06.2015', '%d.%m.%Y'),
+        null,
+        1,
+        '45502810401020000022'
+    );
+
+insert into
+    ACCOUNTS
+values (
+        4,
+        'Кредитный счет для Иванов И.И.',
+        -2000,
+        4,
+        STR_TO_DATE('01.06.2015', '%d.%m.%Y'),
+        null,
+        1,
+        '45502810401020010012'
+    );
+insert into
+    ACCOUNTS
+values (
+        8,
+        'Кредитный счет для Иванов И.И.',
+        0,
+        4,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y'),
+        null,
+        1,
+        '45502810401020010013'
+    );
+
+insert into
+    ACCOUNTS
+values (
+        5,
+        'Депозитный счет для Иванов И.И.',
+        6000,
+        4,
+        STR_TO_DATE('01.08.2017', '%d.%m.%Y'),
+        null,
+        2,
+        '42301810400000000002'
+    );
+
+insert into
+    ACCOUNTS
+values (
+        2,
+        'Депозитный счет для Ивановым П.С.',
+        6000,
+        2,
+        STR_TO_DATE('01.08.2017', '%d.%m.%Y'),
+        null,
+        2,
+        '42301810400000000001'
+    );
+
+insert into
+    ACCOUNTS
+values (
+        3,
+        'Карточный счет для Петровым С.И.',
+        8000,
+        3,
+        STR_TO_DATE('01.08.2017', '%d.%m.%Y'),
+        null,
+        3,
+        '40817810700000000001'
+    );
+
+insert into
+    ACCOUNTS
+values (
+        6,
+        'Депозитный счет для Иванов И.И.',
+        6000,
+        4,
+        STR_TO_DATE('01.12.2024', '%d.%m.%Y'),
+        null,
+        2,
+        '42301810400000000111'
+    );
+
+insert into
+    RECORDS
+values (
+        1,
+        1,
+        5000,
+        1,
+        STR_TO_DATE('01.06.2015', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        2,
+        0,
+        1000,
+        1,
+        STR_TO_DATE('01.07.2015', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        3,
+        0,
+        2000,
+        1,
+        STR_TO_DATE('01.08.2015', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        4,
+        0,
+        3000,
+        1,
+        STR_TO_DATE('01.09.2015', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        5,
+        1,
+        5000,
+        1,
+        STR_TO_DATE('01.10.2015', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        6,
+        0,
+        3000,
+        1,
+        STR_TO_DATE('01.10.2015', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        7,
+        0,
+        10000,
+        2,
+        STR_TO_DATE('01.08.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        8,
+        1,
+        1000,
+        2,
+        STR_TO_DATE('05.08.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        9,
+        1,
+        2000,
+        2,
+        STR_TO_DATE('21.09.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        10,
+        1,
+        5000,
+        2,
+        STR_TO_DATE('24.10.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        11,
+        0,
+        6000,
+        2,
+        STR_TO_DATE('26.11.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        12,
+        0,
+        120000,
+        3,
+        STR_TO_DATE('08.09.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        13,
+        1,
+        1000,
+        3,
+        STR_TO_DATE('05.10.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        14,
+        1,
+        2000,
+        3,
+        STR_TO_DATE('21.10.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        15,
+        1,
+        5000,
+        3,
+        STR_TO_DATE('24.10.2017', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        16,
+        1,
+        5000,
+        3,
+        STR_TO_DATE('01.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        17,
+        1,
+        5000,
+        3,
+        STR_TO_DATE('11.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        18,
+        1,
+        2000,
+        3,
+        STR_TO_DATE('21.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        19,
+        1,
+        2000,
+        4,
+        STR_TO_DATE('21.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        20,
+        0,
+        2000,
+        4,
+        STR_TO_DATE('21.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        21,
+        0,
+        2000,
+        1,
+        STR_TO_DATE('21.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        22,
+        0,
+        2000,
+        1,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        23,
+        0,
+        2000,
+        1,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        24,
+        0,
+        10000,
+        1,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y')
+    );
+
+insert into
+    RECORDS
+values (
+        25,
+        0,
+        20000,
+        1,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        26,
+        0,
+        2000,
+        4,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        27,
+        1,
+        2000,
+        8,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        28,
+        0,
+        2000,
+        8,
+        STR_TO_DATE('22.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        29,
+        1,
+        2000,
+        8,
+        STR_TO_DATE('23.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        30,
+        0,
+        2000,
+        8,
+        STR_TO_DATE('23.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        31,
+        1,
+        2000,
+        8,
+        STR_TO_DATE('24.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        32,
+        0,
+        2000,
+        8,
+        STR_TO_DATE('25.12.2024', '%d.%m.%Y')
+    );
+insert into
+    RECORDS
+values (
+        33,
+        0,
+        2000,
+        4,
+        STR_TO_DATE('25.12.2024', '%d.%m.%Y')
+    );
+
+commit;

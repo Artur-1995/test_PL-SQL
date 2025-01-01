@@ -1,0 +1,13 @@
+Задание:
+Сформируйте выборку, который содержит средние движения по счетам в рамках
+ одного произвольного дня, в разрезе типа продукта.
+
+Скрипт:
+
+SELECT DISTINCT t.`NAME`, ROUND(AVG(r.`SUM`), 2) AS total_amount FROM `RECORDS` r
+JOIN `ACCOUNTS` a ON a.`ID` = r.`ACC_REF`
+JOIN `PRODUCTS` p ON p.`ID` = a.`PRODUCT_REF`
+JOIN `PRODUCT_TYPES` t ON t.`ID` = p.`PRODUCT_TYPE_ID`
+WHERE r.`OPER_DATE` = '2015-10-09'
+GROUP BY `ACC_REF`
+нУЖНО ДОБАВИТЬ PIVOT

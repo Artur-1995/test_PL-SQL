@@ -1,0 +1,78 @@
+Задание:
+В результате сбоя в базе данных разъехалась информация между остатками и 
+операциями по счетам. Напишите нормализацию (процедуру выравнивающую данные), 
+которая найдет такие счета и восстановит остатки по счету.
+
+Процедура:
+
+DROP PROCEDURE FixIncorrectBalance;
+CREATE DEFINER=`root`@`%` PROCEDURE `FixIncorrectBalance`()
+BEGIN
+    -- Временная таблица для хранения ID счетов с неверным балансом
+    DROP TEMPORARY TABLE IF EXISTS incorrect_balances;
+    CREATE TEMPORARY TABLE incorrect_balances (
+        account_id INT,
+        correct_saldo DECIMAL(18, 2)
+    );
+    -- Заполнение временной таблицы данными о неверных балансах
+    INSERT INTO incorrect_balances (account_id, correct_saldo)
+    SELECT
+        a.`ID`,
+        SUM(
+            CASE
+                WHEN r.`DT` = 1 THEN -r.`SUM`
+                ELSE r.`SUM`
+        END
+    ) AS correct_saldo
+    FROM
+        `ACCOUNTS` a
+    LEFT JOIN
+        `RECORDS` r ON a.`ID` = r.`ACC_REF`
+    GROUP BY
+        a.`ID`;
+    -- Обновление баланса для счетов с неверными значениями
+    UPDATE `ACCOUNTS` a
+    INNER JOIN incorrect_balances ib ON a.`ID` = ib.account_id
+    SET
+        a.`SALDO` = ib.correct_saldo
+    WHERE
+        a.`SALDO` <> COALESCE(ib.correct_saldo, 0);
+    -- Очистка временной таблицы
+    DROP TEMPORARY TABLE IF EXISTS incorrect_balances;
+END
+
+
+Запуск:
+
+call FixIncorrectBalance()
+
+
+Проверка:
+
+SELECT
+    a.`ID`,
+    a.`NAME`,
+    a.`SALDO`,
+    COALESCE(rs.correct_SALDO, 0) AS correct_SALDO,
+    CASE
+        WHEN a.`SALDO` = COALESCE(rs.correct_SALDO, 0)
+            THEN 'БАЛАНС ВЕРНЫЙ'
+        ELSE 'БАЛАНС НЕВЕРНЫЙ'
+    END AS balance_status
+FROM
+    `ACCOUNTS` a
+LEFT JOIN (
+    SELECT
+        r.`ACC_REF`,
+        SUM(
+            CASE
+                WHEN r.`DT` = 1 THEN -r.`SUM`
+                ELSE r.`SUM`
+        END
+    ) AS correct_SALDO
+    FROM
+        `RECORDS` r
+    JOIN `ACCOUNTS` a ON a.`ID` = r.`ACC_REF`
+    GROUP BY
+        r.`ACC_REF`
+) rs ON a.`ID` = rs.`ACC_REF`;

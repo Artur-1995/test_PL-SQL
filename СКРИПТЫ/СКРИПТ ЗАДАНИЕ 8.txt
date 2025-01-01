@@ -1,0 +1,33 @@
+Задание:
+Сформируйте выборку, который содержит информацию о клиентах, которые 
+полностью погасили кредит, но при этом не закрыли продукт и пользуются 
+им дальше (по продукту есть операция новой выдачи кредита).
+
+Скрипт:
+
+WITH
+    tab AS (
+        SELECT (
+                CASE
+                    WHEN r.`DT` = 0 THEN - r.`SUM`
+                    ELSE r.`SUM`
+                END
+            ) AS correct_saldo
+        FROM `RECORDS` r
+            JOIN `ACCOUNTS` a ON r.`ACC_REF` = a.`ID`
+        WHERE
+            r.`ACC_REF` = a.`ID`
+        ORDER BY r.`OPER_DATE`
+        LIMIT 1
+    )
+SELECT c.*, p.`NAME`, a.`ACC_NUM`, a.`SALDO`
+FROM
+    `CLIENTS` c
+    JOIN `ACCOUNTS` a ON c.`ID` = a.`CLIENT_REF`
+    JOIN `PRODUCTS` p ON c.`ID` = p.`CLIENT_REF`
+    JOIN `tab` t ON a.`ID` = t.`ACC_REF`
+WHERE
+    p.`PRODUCT_TYPE_ID` = 1
+    AND p.`CLOSE_DATE` IS NULL
+    AND a.`SALDO` >= t.correct_saldo
+    AND t.`DT` = 1
